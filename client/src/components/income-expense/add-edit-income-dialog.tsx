@@ -114,11 +114,11 @@ export default function AddEditIncomeDialog({
   // Create mutation
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      // Format the dates and numeric values for API
+      // Format the dates and keep amount as string for API
       const formattedData = {
         ...data,
         date: format(data.date, 'yyyy-MM-dd'),
-        amount: Number(data.amount.replace(/,/g, '')),
+        amount: data.amount.replace(/,/g, ''),
       };
       
       const res = await apiRequest("POST", "/api/incomes", formattedData);
@@ -146,11 +146,11 @@ export default function AddEditIncomeDialog({
   // Update mutation
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
-      // Format the dates and numeric values for API
+      // Format the dates and keep amount as string for API
       const formattedData = {
         ...data,
         date: format(data.date, 'yyyy-MM-dd'),
-        amount: Number(data.amount.replace(/,/g, '')),
+        amount: data.amount.replace(/,/g, ''),
       };
       
       const res = await apiRequest("PUT", `/api/incomes/${incomeToEdit?.id}`, formattedData);
