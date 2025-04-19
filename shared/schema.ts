@@ -83,6 +83,8 @@ export const insertExpenseSchema = createInsertSchema(expenses).omit({
   id: true,
   created_at: true,
   updated_at: true,
+}).extend({
+  amount: z.number().min(0, "Amount must be positive")
 });
 
 // Goal schema

@@ -48,9 +48,7 @@ const formSchema = insertExpenseSchema.omit({ id: true }).extend({
   // Use date objects for the form instead of strings
   date: z.date(),
   // Format for financial inputs
-  amount: z.coerce.string()
-    .min(1, "Amount is required")
-    .refine(val => !isNaN(Number(val.replace(/,/g, ''))), "Must be a valid number"),
+  amount: z.coerce.number().min(0, "Amount must be positive"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
