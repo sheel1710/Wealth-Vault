@@ -34,7 +34,7 @@ export default function FDRecordsTable({
   const [currentPage, setCurrentPage] = useState(1);
   
   const getFDStatus = (fd: FixedDeposit) => {
-    if (!fd.isActive) return { label: "Closed", color: "bg-gray-200 text-gray-800" };
+    if (!fd.isActive) return { label: "Closed", color: "bg-red-100 text-red-800 ring-1 ring-red-600/10" };
     
     const today = new Date();
     const maturityDate = new Date(fd.maturityDate);
@@ -42,11 +42,11 @@ export default function FDRecordsTable({
     thirtyDaysFromNow.setDate(today.getDate() + 30);
     
     if (maturityDate <= today) {
-      return { label: "Matured", color: "bg-danger bg-opacity-10 text-danger" };
+      return { label: "Matured", color: "bg-orange-100 text-orange-800 ring-1 ring-orange-600/10" };
     } else if (maturityDate <= thirtyDaysFromNow) {
-      return { label: "Maturing Soon", color: "bg-warning bg-opacity-10 text-warning" };
+      return { label: "Maturing Soon", color: "bg-yellow-100 text-yellow-800 ring-1 ring-yellow-600/10" };
     } else {
-      return { label: "Active", color: "bg-success bg-opacity-10 text-success" };
+      return { label: "Active", color: "bg-green-100 text-green-800 ring-1 ring-green-600/10" };
     }
   };
 
@@ -99,7 +99,14 @@ export default function FDRecordsTable({
                         <TableCell className="font-medium">{fd.fdNumber}</TableCell>
                         <TableCell>
                           <div className="flex items-center">
-                            <div className="h-8 w-8 rounded-full flex items-center justify-center bg-primary bg-opacity-10 text-primary">
+                            <div className={`h-8 w-8 rounded-full flex items-center justify-center ${
+                              fd.bankName.toLowerCase().includes('axis') ? 'bg-[#97144C] text-white' :
+                              fd.bankName.toLowerCase().includes('hdfc') ? 'bg-[#004C8F] text-white' :
+                              fd.bankName.toLowerCase().includes('icici') ? 'bg-[#F37B20] text-white' :
+                              fd.bankName.toLowerCase().includes('sbi') ? 'bg-[#11437B] text-white' :
+                              fd.bankName.toLowerCase().includes('kotak') ? 'bg-[#EA2227] text-white' :
+                              'bg-gray-600 text-white'
+                            }`}>
                               {fd.bankName.substring(0, 2).toUpperCase()}
                             </div>
                             <div className="ml-3">
