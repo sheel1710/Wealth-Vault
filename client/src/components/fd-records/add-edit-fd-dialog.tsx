@@ -190,15 +190,15 @@ export default function AddEditFDDialog({ open, onOpenChange, fdToEdit }: AddEdi
   // Create mutation
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
-      // Format the dates and numeric values for API
+      // Format the dates and numeric values for API as strings to match backend expectations
       const formattedData = {
         ...data,
         startDate: format(data.startDate, 'yyyy-MM-dd'),
         maturityDate: format(data.maturityDate, 'yyyy-MM-dd'),
-        principalAmount: Number(data.principalAmount.replace(/,/g, '')),
-        interestRate: Number(data.interestRate.replace(/,/g, '')),
-        interestAmount: data.interestAmount ? Number(data.interestAmount.replace(/,/g, '')) : null,
-        maturityAmount: data.maturityAmount ? Number(data.maturityAmount.replace(/,/g, '')) : null,
+        principalAmount: data.principalAmount.replace(/,/g, ''),
+        interestRate: data.interestRate.replace(/,/g, ''),
+        interestAmount: data.interestAmount ? data.interestAmount.replace(/,/g, '') : null,
+        maturityAmount: data.maturityAmount ? data.maturityAmount.replace(/,/g, '') : null,
       };
       
       const res = await apiRequest("POST", "/api/fixed-deposits", formattedData);
@@ -226,15 +226,15 @@ export default function AddEditFDDialog({ open, onOpenChange, fdToEdit }: AddEdi
   // Update mutation
   const updateMutation = useMutation({
     mutationFn: async (data: any) => {
-      // Format the dates and numeric values for API
+      // Format the dates and numeric values for API as strings to match backend expectations
       const formattedData = {
         ...data,
         startDate: format(data.startDate, 'yyyy-MM-dd'),
         maturityDate: format(data.maturityDate, 'yyyy-MM-dd'),
-        principalAmount: Number(data.principalAmount.replace(/,/g, '')),
-        interestRate: Number(data.interestRate.replace(/,/g, '')),
-        interestAmount: data.interestAmount ? Number(data.interestAmount.replace(/,/g, '')) : null,
-        maturityAmount: data.maturityAmount ? Number(data.maturityAmount.replace(/,/g, '')) : null,
+        principalAmount: data.principalAmount.replace(/,/g, ''),
+        interestRate: data.interestRate.replace(/,/g, ''),
+        interestAmount: data.interestAmount ? data.interestAmount.replace(/,/g, '') : null,
+        maturityAmount: data.maturityAmount ? data.maturityAmount.replace(/,/g, '') : null,
       };
       
       const res = await apiRequest("PUT", `/api/fixed-deposits/${fdToEdit?.id}`, formattedData);

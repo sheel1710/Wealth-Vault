@@ -9,8 +9,6 @@ import FDRecordsTable from "@/components/dashboard/fd-records-table";
 import UpcomingMaturities from "@/components/dashboard/upcoming-maturities";
 import IncomeExpenseChart from "@/components/dashboard/income-expense-chart";
 import InvestmentGrowthChart from "@/components/dashboard/investment-growth-chart";
-import { PlusCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { FixedDeposit } from "@shared/schema";
 
@@ -47,13 +45,6 @@ export default function DashboardPage() {
             <div>
               <h2 className="text-2xl font-bold text-text-dark">Financial Dashboard</h2>
               <p className="text-sm text-gray-500">Track and manage all your fixed deposits in one place</p>
-            </div>
-            
-            <div className="mt-4 md:mt-0">
-              <Button className="flex items-center">
-                <PlusCircle className="h-5 w-5 mr-2" />
-                Add New FD
-              </Button>
             </div>
           </div>
 
