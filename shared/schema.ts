@@ -125,6 +125,19 @@ export const insertBudgetSchema = createInsertSchema(monthlyBudgets).omit({
   updated_at: true,
 });
 
+// Notes schema
+export const notes = pgTable('notes', {
+    id: serial('id').primaryKey(),
+    userId: integer('user_id').notNull().references(() => users.id),
+    title: text('title').notNull(),
+    content: text('content'),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull()
+});
+
+export const insertNoteSchema = createInsertSchema(notes).omit({ id: true, createdAt: true, updatedAt: true });
+
+
 // Define type exports
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -143,3 +156,6 @@ export type InsertGoal = z.infer<typeof insertGoalSchema>;
 
 export type MonthlyBudget = typeof monthlyBudgets.$inferSelect;
 export type InsertMonthlyBudget = z.infer<typeof insertBudgetSchema>;
+
+export type Note = typeof notes.$inferSelect;
+export type InsertNote = z.infer<typeof insertNoteSchema>;

@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
-import { insertFDSchema, insertIncomeSchema, insertExpenseSchema, insertGoalSchema } from "@shared/schema";
+import { insertFDSchema, insertIncomeSchema, insertExpenseSchema, insertGoalSchema, insertNoteSchema } from "@shared/schema";
 
 // No longer requiring authentication
 function getDefaultUserId() {
@@ -262,6 +262,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
       } else {
         res.status(500).json({ message: "Failed to update goal" });
       }
+    }
+  });
+
+  // Notes routes
+  app.get("/api/notes", async (req, res) => {
+    try {
+      const userId = getDefaultUserId();
+      const notes = await storage.getNotesByUserId(userId);
+      res.json(notes);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch notes" });
+    }
+  });
+
+  app.post("/api/notes", async (req, res) => {
+    try {
+      const userId = getDefaultUserId();
+      const validatedData = insertNoteSchema.parse({ ...req.body, userId });
+      const newNote = await storage.createNote(validatedData);
+      res.status(201).json(newNote);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ message: "Invalid input data", errors: error.errors });
+      } else {
+        res.status(500).json({ message: "Failed to create note" });
+      }
+    }
+  });
+
+  app.put("/api/notes/:id", async (req, res) => {
+    try {
+      const noteId = parseInt(req.params.id);
+      const validatedData = insertNoteSchema.partial().parse(req.body);
+      const updatedNote = await storage.updateNote(noteId, validatedData);
+      res.json(updatedNote);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ message: "Invalid input data", errors: error.errors });
+      } else {
+        res.status(500).json({ message: "Failed to update note" });
+      }
+    }
+  });
+
+  app.delete("/api/notes/:id", async (req, res) => {
+    try {
+      const noteId = parseInt(req.params.id);
+      await storage.deleteNote(noteId);
+      res.status(204).end();
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete note" });
     }
   });
 
