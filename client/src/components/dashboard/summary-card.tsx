@@ -20,15 +20,15 @@ export default function SummaryCard({
   const renderIcon = () => {
     switch (icon) {
       case "money":
-        return <Banknote className="h-5 w-5 text-primary" />;
+        return <Banknote className="h-5 w-5 text-blue-600" />;
       case "document":
-        return <FileText className="h-5 w-5 text-primary" />;
+        return <FileText className="h-5 w-5 text-blue-600" />;
       case "chart":
-        return <BarChart2 className="h-5 w-5 text-success" />;
+        return <BarChart2 className="h-5 w-5 text-green-600" />;
       case "clock":
-        return <Clock className="h-5 w-5 text-warning" />;
+        return <Clock className="h-5 w-5 text-yellow-600" />;
       default:
-        return <Banknote className="h-5 w-5 text-primary" />;
+        return <Banknote className="h-5 w-5 text-blue-600" />;
     }
   };
 
@@ -75,7 +75,7 @@ export default function SummaryCard({
       <CardContent className="p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-medium text-gray-500">{title}</h3>
-          <span className="p-2 bg-opacity-10 rounded-md bg-primary">
+          <span className="p-2 bg-blue-100 rounded-md">
             {renderIcon()}
           </span>
         </div>
