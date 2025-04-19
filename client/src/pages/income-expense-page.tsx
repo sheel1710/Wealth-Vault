@@ -84,29 +84,29 @@ export default function IncomeExpensePage() {
               <p className="text-sm text-gray-500">Track and manage your financial flows</p>
             </div>
             
-            <div className="mt-4 md:mt-0 flex space-x-2">
+            <div className="mt-4 md:mt-0 flex flex-wrap gap-2">
               <Button variant="outline" className="flex items-center">
                 <CalendarRange className="h-4 w-4 mr-2" />
                 Select Period
               </Button>
               <Button 
-                className="flex items-center bg-success text-white hover:bg-success/90" 
+                className="flex items-center bg-green-600 text-white hover:bg-green-700" 
                 onClick={() => {
                   setEditIncome(null);
                   setIncomeDialogOpen(true);
                 }}
               >
-                <ArrowUpCircle className="h-4 w-4 mr-2" />
+                <PlusCircle className="h-4 w-4 mr-2" />
                 Add Income
               </Button>
               <Button 
-                className="flex items-center bg-danger text-white hover:bg-danger/90"
+                className="flex items-center bg-red-600 text-white hover:bg-red-700"
                 onClick={() => {
                   setEditExpense(null);
                   setExpenseDialogOpen(true);
                 }}
               >
-                <ArrowDownCircle className="h-4 w-4 mr-2" />
+                <PlusCircle className="h-4 w-4 mr-2" />
                 Add Expense
               </Button>
             </div>
