@@ -6,7 +6,8 @@ import {
   BarChart2, 
   TrendingUp, 
   Settings, 
-  LogOut 
+  LogOut,
+  StickyNote
 } from "lucide-react";
 
 export default function SidebarNav() {
@@ -56,6 +57,13 @@ export default function SidebarNav() {
             <a className={`flex items-center px-4 py-3 ${isActive('/projections') ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-100'} rounded-md transition-colors`}>
               <TrendingUp className="h-5 w-5 mr-3" />
               Projections
+            </a>
+          </Link>
+
+          <Link href="/notes">
+            <a className={`flex items-center px-4 py-3 ${isActive('/notes') ? 'bg-blue-100 text-blue-600' : 'text-gray-600 hover:bg-gray-100'} rounded-md transition-colors`}>
+              <StickyNote className="h-5 w-5 mr-3" />
+              Notes
             </a>
           </Link>
           
