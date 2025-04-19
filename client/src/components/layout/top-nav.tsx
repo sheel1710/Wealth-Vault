@@ -6,6 +6,8 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
@@ -16,6 +18,11 @@ interface TopNavProps {
 export default function TopNav({ title = "Dashboard" }: TopNavProps) {
   const { user, logoutMutation } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [notifications, setNotifications] = useState([
+    { id: 1, message: "Welcome to FD Manager!" },
+    { id: 2, message: "New user registered." }
+  ]);
 
   const handleLogout = () => {
     if (confirm("Are you sure you want to log out?")) {
@@ -25,7 +32,7 @@ export default function TopNav({ title = "Dashboard" }: TopNavProps) {
 
   const getUserInitials = () => {
     if (!user || !user.name) return "U";
-    
+
     const names = user.name.split(" ");
     if (names.length === 1) return names[0].charAt(0).toUpperCase();
     return (names[0].charAt(0) + names[names.length - 1].charAt(0)).toUpperCase();
@@ -40,17 +47,34 @@ export default function TopNav({ title = "Dashboard" }: TopNavProps) {
           </button>
           <span className="ml-4 text-lg font-semibold text-primary md:hidden">FD Manager</span>
         </div>
-        
+
         <div className="hidden md:flex items-center">
           <h1 className="text-xl font-semibold text-text-dark">{title}</h1>
         </div>
-        
+
         <div className="flex items-center">
-          <button className="p-1 mr-3 text-gray-500 hover:text-primary focus:outline-none relative">
-            <Bell className="h-6 w-6" />
-            <span className="absolute top-0 right-0 w-2 h-2 bg-primary rounded-full"></span>
-          </button>
-          
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="p-1 mr-3 text-gray-500 hover:text-primary focus:outline-none relative" onClick={() => setNotificationsOpen(!notificationsOpen)}>
+                <Bell className="h-6 w-6" />
+                <span className="absolute top-0 right-0 w-2 h-2 bg-primary rounded-full">{notifications.length > 0 ? notifications.length : null}</span>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-80">
+              <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {notifications.length > 0 ? (
+                notifications.map(notification => (
+                  <DropdownMenuItem key={notification.id}>
+                    {notification.message}
+                  </DropdownMenuItem>
+                ))
+              ) : (
+                <DropdownMenuItem disabled>No new notifications</DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="p-0 h-auto">
