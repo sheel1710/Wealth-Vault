@@ -123,9 +123,9 @@ export default function AddEditExpenseDialog({
       const formattedData = {
         ...data,
         date: format(data.date, 'yyyy-MM-dd'),
-        amount: Number(data.amount.replace(/,/g, '')),
+        amount: Number(data.amount),
       };
-      
+
       const res = await apiRequest("POST", "/api/expenses", formattedData);
       return await res.json();
     },
@@ -155,9 +155,9 @@ export default function AddEditExpenseDialog({
       const formattedData = {
         ...data,
         date: format(data.date, 'yyyy-MM-dd'),
-        amount: Number(data.amount.replace(/,/g, '')),
+        amount: Number(data.amount),
       };
-      
+
       const res = await apiRequest("PUT", `/api/expenses/${expenseToEdit?.id}`, formattedData);
       return await res.json();
     },
@@ -182,11 +182,11 @@ export default function AddEditExpenseDialog({
   // Form submission handler
   // Default user ID 
   const defaultUserId = 1;
-  
+
   function onSubmit(values: FormValues) {
     // Always use the default user ID
     values.userId = defaultUserId;
-    
+
     if (expenseToEdit) {
       updateMutation.mutate(values);
     } else {
@@ -248,10 +248,10 @@ export default function AddEditExpenseDialog({
                       onChange={(e) => {
                         // Remove all non-numeric characters except decimals
                         const numericValue = e.target.value.replace(/[^0-9.]/g, '');
-                        
+
                         // Parse the numeric value
                         const parsedValue = parseFloat(numericValue);
-                        
+
                         if (!isNaN(parsedValue)) {
                           field.onChange(parsedValue);
                         } else if (numericValue === '') {
