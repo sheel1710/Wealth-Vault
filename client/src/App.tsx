@@ -5,6 +5,7 @@ import FDRecordsPage from "@/pages/fd-records-page";
 import IncomeExpensePage from "@/pages/income-expense-page";
 import ProjectionsPage from "@/pages/projections-page";
 import SettingsPage from "@/pages/settings-page";
+import NotesPage from "@/pages/notes-page";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/income-expense" component={IncomeExpensePage} />
       <Route path="/projections" component={ProjectionsPage} />
       <Route path="/settings" component={SettingsPage} />
+      <Route path="/notes" component={NotesPage} />
       <Route component={NotFound} />
     </Switch>
   );
