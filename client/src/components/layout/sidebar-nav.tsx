@@ -32,7 +32,7 @@ export default function SidebarNav() {
       <nav className="flex flex-col p-4 overflow-y-auto h-full">
         <div className="space-y-2">
           <Link href="/">
-            <a className={`flex items-center px-4 py-3 ${isActive('/') ? 'bg-primary bg-opacity-10 text-primary' : 'text-text-dark hover:bg-gray-100'} rounded-md font-medium transition-colors`}>
+            <a className={`flex items-center px-4 py-3 ${isActive('/') ? 'bg-primary/10 text-primary font-semibold' : 'text-text-dark hover:bg-gray-100'} rounded-md transition-colors`}>
               <Home className="h-5 w-5 mr-3" />
               Dashboard
             </a>
