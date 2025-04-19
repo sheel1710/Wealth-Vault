@@ -5,21 +5,20 @@ import { setupAuth } from "./auth";
 import { z } from "zod";
 import { insertFDSchema, insertIncomeSchema, insertExpenseSchema, insertGoalSchema } from "@shared/schema";
 
-function ensureAuthenticated(req: Request, res: Response, next: Function) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-  res.status(401).json({ message: "Unauthorized" });
+// No longer requiring authentication
+function getDefaultUserId() {
+  // Return a default user ID for personal use
+  return 1;
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Setup authentication routes
-  setupAuth(app);
+  // No longer using authentication routes
+  // setupAuth(app);
 
   // Fixed Deposit routes
-  app.get("/api/fixed-deposits", ensureAuthenticated, async (req, res) => {
+  app.get("/api/fixed-deposits", async (req, res) => {
     try {
-      const userId = req.user!.id;
+      const userId = getDefaultUserId();
       const fds = await storage.getFDsByUserId(userId);
       res.json(fds);
     } catch (error) {
@@ -27,9 +26,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/fixed-deposits", ensureAuthenticated, async (req, res) => {
+  app.post("/api/fixed-deposits", async (req, res) => {
     try {
-      const userId = req.user!.id;
+      const userId = getDefaultUserId();
       const validatedData = insertFDSchema.parse({ ...req.body, userId });
       const newFD = await storage.createFD(validatedData);
       res.status(201).json(newFD);
@@ -42,18 +41,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/fixed-deposits/:id", ensureAuthenticated, async (req, res) => {
+  app.get("/api/fixed-deposits/:id", async (req, res) => {
     try {
       const fdId = parseInt(req.params.id);
       const fd = await storage.getFDById(fdId);
       
       if (!fd) {
         return res.status(404).json({ message: "Fixed deposit not found" });
-      }
-      
-      // Ensure user can only access their own FDs
-      if (fd.userId !== req.user!.id) {
-        return res.status(403).json({ message: "Access denied" });
       }
       
       res.json(fd);
@@ -62,18 +56,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/fixed-deposits/:id", ensureAuthenticated, async (req, res) => {
+  app.put("/api/fixed-deposits/:id", async (req, res) => {
     try {
       const fdId = parseInt(req.params.id);
       const fd = await storage.getFDById(fdId);
       
       if (!fd) {
         return res.status(404).json({ message: "Fixed deposit not found" });
-      }
-      
-      // Ensure user can only update their own FDs
-      if (fd.userId !== req.user!.id) {
-        return res.status(403).json({ message: "Access denied" });
       }
       
       const validatedData = insertFDSchema.partial().parse(req.body);
@@ -88,18 +77,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/fixed-deposits/:id", ensureAuthenticated, async (req, res) => {
+  app.delete("/api/fixed-deposits/:id", async (req, res) => {
     try {
       const fdId = parseInt(req.params.id);
       const fd = await storage.getFDById(fdId);
       
       if (!fd) {
         return res.status(404).json({ message: "Fixed deposit not found" });
-      }
-      
-      // Ensure user can only delete their own FDs
-      if (fd.userId !== req.user!.id) {
-        return res.status(403).json({ message: "Access denied" });
       }
       
       await storage.deleteFD(fdId);
@@ -110,9 +94,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Income routes
-  app.get("/api/incomes", ensureAuthenticated, async (req, res) => {
+  app.get("/api/incomes", async (req, res) => {
     try {
-      const userId = req.user!.id;
+      const userId = getDefaultUserId();
       const incomes = await storage.getIncomesByUserId(userId);
       res.json(incomes);
     } catch (error) {
@@ -120,9 +104,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/incomes", ensureAuthenticated, async (req, res) => {
+  app.post("/api/incomes", async (req, res) => {
     try {
-      const userId = req.user!.id;
+      const userId = getDefaultUserId();
       const validatedData = insertIncomeSchema.parse({ ...req.body, userId });
       const newIncome = await storage.createIncome(validatedData);
       res.status(201).json(newIncome);
@@ -135,17 +119,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/incomes/:id", ensureAuthenticated, async (req, res) => {
+  app.put("/api/incomes/:id", async (req, res) => {
     try {
       const incomeId = parseInt(req.params.id);
       const income = await storage.getIncomeById(incomeId);
       
       if (!income) {
         return res.status(404).json({ message: "Income not found" });
-      }
-      
-      if (income.userId !== req.user!.id) {
-        return res.status(403).json({ message: "Access denied" });
       }
       
       const validatedData = insertIncomeSchema.partial().parse(req.body);
@@ -160,17 +140,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/incomes/:id", ensureAuthenticated, async (req, res) => {
+  app.delete("/api/incomes/:id", async (req, res) => {
     try {
       const incomeId = parseInt(req.params.id);
       const income = await storage.getIncomeById(incomeId);
       
       if (!income) {
         return res.status(404).json({ message: "Income not found" });
-      }
-      
-      if (income.userId !== req.user!.id) {
-        return res.status(403).json({ message: "Access denied" });
       }
       
       await storage.deleteIncome(incomeId);
@@ -181,9 +157,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Expense routes
-  app.get("/api/expenses", ensureAuthenticated, async (req, res) => {
+  app.get("/api/expenses", async (req, res) => {
     try {
-      const userId = req.user!.id;
+      const userId = getDefaultUserId();
       const expenses = await storage.getExpensesByUserId(userId);
       res.json(expenses);
     } catch (error) {
@@ -191,9 +167,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/expenses", ensureAuthenticated, async (req, res) => {
+  app.post("/api/expenses", async (req, res) => {
     try {
-      const userId = req.user!.id;
+      const userId = getDefaultUserId();
       const validatedData = insertExpenseSchema.parse({ ...req.body, userId });
       const newExpense = await storage.createExpense(validatedData);
       res.status(201).json(newExpense);
@@ -206,17 +182,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/expenses/:id", ensureAuthenticated, async (req, res) => {
+  app.put("/api/expenses/:id", async (req, res) => {
     try {
       const expenseId = parseInt(req.params.id);
       const expense = await storage.getExpenseById(expenseId);
       
       if (!expense) {
         return res.status(404).json({ message: "Expense not found" });
-      }
-      
-      if (expense.userId !== req.user!.id) {
-        return res.status(403).json({ message: "Access denied" });
       }
       
       const validatedData = insertExpenseSchema.partial().parse(req.body);
@@ -231,17 +203,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/expenses/:id", ensureAuthenticated, async (req, res) => {
+  app.delete("/api/expenses/:id", async (req, res) => {
     try {
       const expenseId = parseInt(req.params.id);
       const expense = await storage.getExpenseById(expenseId);
       
       if (!expense) {
         return res.status(404).json({ message: "Expense not found" });
-      }
-      
-      if (expense.userId !== req.user!.id) {
-        return res.status(403).json({ message: "Access denied" });
       }
       
       await storage.deleteExpense(expenseId);
@@ -252,9 +220,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Goal routes
-  app.get("/api/goals", ensureAuthenticated, async (req, res) => {
+  app.get("/api/goals", async (req, res) => {
     try {
-      const userId = req.user!.id;
+      const userId = getDefaultUserId();
       const goals = await storage.getGoalsByUserId(userId);
       res.json(goals);
     } catch (error) {
@@ -262,9 +230,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/goals", ensureAuthenticated, async (req, res) => {
+  app.post("/api/goals", async (req, res) => {
     try {
-      const userId = req.user!.id;
+      const userId = getDefaultUserId();
       const validatedData = insertGoalSchema.parse({ ...req.body, userId });
       const newGoal = await storage.createGoal(validatedData);
       res.status(201).json(newGoal);
@@ -277,17 +245,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/goals/:id", ensureAuthenticated, async (req, res) => {
+  app.put("/api/goals/:id", async (req, res) => {
     try {
       const goalId = parseInt(req.params.id);
       const goal = await storage.getGoalById(goalId);
       
       if (!goal) {
         return res.status(404).json({ message: "Goal not found" });
-      }
-      
-      if (goal.userId !== req.user!.id) {
-        return res.status(403).json({ message: "Access denied" });
       }
       
       const validatedData = insertGoalSchema.partial().parse(req.body);
@@ -302,17 +266,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/goals/:id", ensureAuthenticated, async (req, res) => {
+  app.delete("/api/goals/:id", async (req, res) => {
     try {
       const goalId = parseInt(req.params.id);
       const goal = await storage.getGoalById(goalId);
       
       if (!goal) {
         return res.status(404).json({ message: "Goal not found" });
-      }
-      
-      if (goal.userId !== req.user!.id) {
-        return res.status(403).json({ message: "Access denied" });
       }
       
       await storage.deleteGoal(goalId);
@@ -323,9 +283,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Dashboard summary endpoint
-  app.get("/api/dashboard/summary", ensureAuthenticated, async (req, res) => {
+  app.get("/api/dashboard/summary", async (req, res) => {
     try {
-      const userId = req.user!.id;
+      const userId = getDefaultUserId();
       const fds = await storage.getFDsByUserId(userId);
       const incomes = await storage.getIncomesByUserId(userId);
       const expenses = await storage.getExpensesByUserId(userId);
