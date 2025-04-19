@@ -54,31 +54,25 @@ export default function DashboardPage() {
               title="Total Investment"
               value={isDashboardLoading ? "Loading..." : `₹${dashboardData?.totalInvestment?.toLocaleString('en-IN') || "0"}`}
               icon="money"
-              trend="+8.5% from last month"
-              trendType="positive"
             />
             
             <SummaryCard
               title="Active FDs"
               value={isDashboardLoading ? "Loading..." : `${dashboardData?.activeFDs || "0"}`}
               icon="document"
-              trend={"+2 new this month"}
-              trendType="positive"
             />
             
             <SummaryCard
               title="Interest Earned (YTD)"
               value={isDashboardLoading ? "Loading..." : `₹${dashboardData?.interestEarnedYTD?.toLocaleString('en-IN') || "0"}`}
               icon="chart"
-              trend="+12.3% vs last year"
-              trendType="positive"
             />
             
             <SummaryCard
               title="Maturing Soon"
               value={isDashboardLoading ? "Loading..." : `${dashboardData?.maturingSoonCount || "0"}`}
               icon="clock"
-              trend="In next 30 days"
+              trend={dashboardData?.maturingSoonCount ? "In next 30 days" : undefined}
               trendType="warning"
             />
           </div>
