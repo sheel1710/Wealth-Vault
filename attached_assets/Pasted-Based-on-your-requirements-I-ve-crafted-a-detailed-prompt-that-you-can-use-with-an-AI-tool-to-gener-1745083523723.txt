@@ -1,0 +1,79 @@
+Based on your requirements, I’ve crafted a detailed prompt that you can use with an AI tool to generate a web application (referred to as a "website" per your terminology) for managing fixed deposit (FD) receipts and personal finances. This prompt encapsulates your main motive of replacing the traditional FD receipt filing method, includes all the features you outlined, and adds some enhancements for a comprehensive solution.
+
+Here’s the prompt you can provide to the AI:
+
+
+# Prompt for FD Manager Web Application
+
+Generate a web application named "FD Manager" designed for personal use to replace the traditional method of filing fixed deposit (FD) receipts and to streamline financial management. The application should be secure, user-friendly, and responsive for both desktop and mobile devices. Below are the detailed requirements:
+
+## Core Features
+
+### 1. User Authentication
+- Implement secure login and registration pages to protect user data.
+- Use encryption for sensitive information like financial details.
+
+### 2. Dashboard
+- Provide an overview of:
+  - All FDs with key details (FD number, bank, maturity date).
+  - Total invested amount across all FDs.
+  - Upcoming maturity dates with reminders (e.g., in-app notifications).
+  - Financial summary showing monthly income, expenses, and leftover savings.
+
+### 3. FD Receipt Management
+- Allow users to:
+  - Add new FD records.
+  - Edit or delete existing FD records.
+- Each FD record must include:
+  - FD number.
+  - Bank name.
+  - Principal amount.
+  - Interest rate.
+  - Tenure (in months or years).
+  - Start date.
+  - Maturity date.
+- Display all FDs in a table format with sorting options (e.g., by maturity date or bank).
+
+### 4. Maturity Options
+- For each FD nearing maturity, offer two choices:
+  - **Reinvest:**
+    - Input fields for reinvestment interest rate and tenure.
+    - Calculate and display the projected future value based on these inputs.
+  - **Save for Something Else:**
+    - Input fields for a goal name (e.g., "Vacation") and required tenure.
+    - Show how the matured amount contributes to the goal over the specified tenure.
+- Provide a clear interface to select and configure these options.
+
+### 5. Income and Expense Tracking
+- Enable users to:
+  - Enter total monthly income.
+  - Add expenses or investments in customizable categories (e.g., FDs, rent, utilities).
+- Automatically calculate and display the leftover amount after deducting all investments and expenses from the income.
+
+### 6. Financial Projections
+- Project the total money growth based on:
+  - Invested FDs (considering interest rates and tenures).
+  - Other amounts entered (e.g., additional investments).
+- Display a comparison of the initial investment versus the projected future value.
+- Use charts or graphs to visualize growth over time.
+
+## Additional Features
+- **Reminders:** Notify users of upcoming FD maturities.
+- **Budgeting:** Allow setting budgets for expense categories and track spending.
+- **Goal Tracking:** Support setting and monitoring financial goals (e.g., target amount, deadline).
+- **Reports:** Generate visual reports (e.g., income vs. expenses, investment growth).
+
+## Technical Requirements
+- **Front-End:** Use HTML, CSS, and JavaScript (consider React or similar for interactivity).
+- **Back-End:** Implement with a framework like Node.js with Express or Django.
+- **Database:** Store data in a SQL (e.g., MySQL) or NoSQL (e.g., MongoDB) database.
+- **Security:** Ensure data encryption and secure authentication mechanisms.
+- **Responsiveness:** Design the UI to work seamlessly on both desktop and mobile devices.
+
+## Deliverables
+Please provide the complete code structure and implementation, including:
+- Front-end files (HTML, CSS, JavaScript).
+- Back-end logic and APIs.
+- Database schema for storing user data, FDs, income, expenses, and goals.
+
+This web application should simplify FD management, eliminate physical record-keeping, and assist in future financial planning.
