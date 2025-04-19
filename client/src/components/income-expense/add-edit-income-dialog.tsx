@@ -73,7 +73,7 @@ export default function AddEditIncomeDialog({
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      userId: user?.id,
+      userId: 1, // Default user ID
       source: "",
       amount: "",
       date: new Date(),
@@ -97,7 +97,7 @@ export default function AddEditIncomeDialog({
       });
     } else {
       form.reset({
-        userId: user?.id,
+        userId: 1, // Default user ID
         source: "",
         amount: "",
         date: new Date(),
@@ -175,11 +175,12 @@ export default function AddEditIncomeDialog({
   });
 
   // Form submission handler
+  // Default user ID 
+  const defaultUserId = 1;
+  
   function onSubmit(values: FormValues) {
-    // Add the user ID if not already set
-    if (!values.userId && user) {
-      values.userId = user.id;
-    }
+    // Always use the default user ID
+    values.userId = defaultUserId;
     
     if (incomeToEdit) {
       updateMutation.mutate(values);
