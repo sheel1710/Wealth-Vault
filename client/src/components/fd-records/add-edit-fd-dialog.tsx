@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { FixedDeposit, insertFDSchema } from "@shared/schema";
-import { useAuth } from "@/hooks/use-auth";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -58,6 +57,14 @@ const formSchema = insertFDSchema.omit({ id: true }).extend({
     .refine(val => !isNaN(Number(val.replace(/,/g, ''))), "Must be a valid number"),
   interestAmount: z.string().optional(),
   maturityAmount: z.string().optional(),
+  // Add these fields from the original schema
+  userId: z.number().default(1),
+  fdNumber: z.string().optional(),
+  bankName: z.string().optional(),
+  tenure: z.number().default(12),
+  tenureType: z.enum(["months", "years"]).default("months"),
+  isActive: z.boolean().default(true),
+  notes: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -69,16 +76,18 @@ interface AddEditFDDialogProps {
 }
 
 export default function AddEditFDDialog({ open, onOpenChange, fdToEdit }: AddEditFDDialogProps) {
-  const { user } = useAuth();
   const { toast } = useToast();
   const [autoCalculateMaturity, setAutoCalculateMaturity] = useState(true);
   const [autoCalculateInterest, setAutoCalculateInterest] = useState(true);
+  
+  // Default user ID (since we're no longer using authentication)
+  const defaultUserId = 1;
 
   // Setup form
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      userId: user?.id,
+      userId: defaultUserId,
       fdNumber: "",
       bankName: "",
       principalAmount: "",
@@ -118,7 +127,7 @@ export default function AddEditFDDialog({ open, onOpenChange, fdToEdit }: AddEdi
       setAutoCalculateInterest(false);
     } else {
       form.reset({
-        userId: user?.id,
+        userId: defaultUserId,
         fdNumber: "",
         bankName: "",
         principalAmount: "",
@@ -137,7 +146,7 @@ export default function AddEditFDDialog({ open, onOpenChange, fdToEdit }: AddEdi
       setAutoCalculateMaturity(true);
       setAutoCalculateInterest(true);
     }
-  }, [fdToEdit, user, form]);
+  }, [fdToEdit, form, defaultUserId]);
 
   // Watch form values for calculations
   const startDate = form.watch("startDate");
@@ -251,10 +260,8 @@ export default function AddEditFDDialog({ open, onOpenChange, fdToEdit }: AddEdi
 
   // Form submission handler
   function onSubmit(values: FormValues) {
-    // Add the user ID if not already set
-    if (!values.userId && user) {
-      values.userId = user.id;
-    }
+    // Always use the default user ID
+    values.userId = defaultUserId;
     
     if (fdToEdit) {
       updateMutation.mutate(values);
