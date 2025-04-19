@@ -48,7 +48,7 @@ const formSchema = insertExpenseSchema.omit({ id: true }).extend({
   // Use date objects for the form instead of strings
   date: z.date(),
   // Format for financial inputs
-  amount: z.string()
+  amount: z.coerce.string()
     .min(1, "Amount is required")
     .refine(val => !isNaN(Number(val.replace(/,/g, ''))), "Must be a valid number"),
 });
