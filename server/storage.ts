@@ -17,6 +17,7 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUser(id: number, data: { name?: string; email?: string }): Promise<User | undefined>; // Added updateUser function
 
   // FD management
   createFD(fd: InsertFixedDeposit): Promise<FixedDeposit>;
@@ -129,6 +130,15 @@ export class MemStorage implements IStorage {
     this.users.set(id, user);
     return user;
   }
+
+  async updateUser(id: number, data: { name?: string; email?: string }): Promise<User | undefined> {
+    const user = await this.getUser(id);
+    if (!user) return undefined;
+    const updatedUser = { ...user, ...data };
+    this.users.set(id, updatedUser);
+    return updatedUser;
+  }
+
 
   // Fixed Deposit Methods
   async createFD(fdData: InsertFixedDeposit): Promise<FixedDeposit> {

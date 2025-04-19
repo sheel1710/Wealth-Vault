@@ -62,7 +62,19 @@ export default function SettingsPage() {
 
   const onSubmit = async (data: ProfileFormValues) => {
     try {
-      // TODO: Implement profile update API call here.
+      const response = await fetch('/api/user/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      });
+      
+      if (!response.ok) throw new Error('Failed to update profile');
+      
+      const updatedUser = await response.json();
+      queryClient.setQueryData(["/api/user"], updatedUser);
+      
       toast({
         title: "Profile updated",
         description: "Your profile has been updated successfully.",
@@ -140,14 +152,14 @@ export default function SettingsPage() {
               </aside>
 
               <div className="flex-1 lg:max-w-2xl">
-                <Tabs value={activeTab}>
-                  <TabsList>
-                    <TabsTrigger value="profile">Profile</TabsTrigger>
-                    <TabsTrigger value="notifications">Notifications</TabsTrigger>
-                    <TabsTrigger value="security">Security</TabsTrigger>
-                    <TabsTrigger value="help">Help & Support</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="profile">
+                <Card className="p-6">
+                  <CardHeader className="px-0 pt-0">
+                    <CardTitle>Profile Settings</CardTitle>
+                    <CardDescription>
+                      Manage your personal information
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="px-0">
                     <div>
                       <h3 className="text-lg font-medium">Profile Settings</h3>
                       <p className="text-sm text-muted-foreground">
@@ -192,50 +204,8 @@ export default function SettingsPage() {
                         <Button type="submit">Save Changes</Button>
                       </form>
                     </Form>
-                  </TabsContent>
-
-                  <TabsContent value="notifications">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Notifications</CardTitle>
-                        <CardDescription>
-                          Configure how you want to be notified
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <p>Notification settings coming soon...</p>
-                      </CardContent>
-                    </Card>
-                  </TabsContent>
-
-                  <TabsContent value="security">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Security</CardTitle>
-                        <CardDescription>
-                          Manage your security preferences
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <p>Security settings coming soon...</p>
-                      </CardContent>
-                    </Card>
-                  </TabsContent>
-
-                  <TabsContent value="help">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Help & Support</CardTitle>
-                        <CardDescription>
-                          Get help with FD Manager
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <p>Help & support content coming soon...</p>
-                      </CardContent>
-                    </Card>
-                  </TabsContent>
-                </Tabs>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>
