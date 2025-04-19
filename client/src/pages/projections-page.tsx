@@ -120,36 +120,40 @@ export default function ProjectionsPage() {
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Investment Growth Projection</CardTitle>
               <div className="flex space-x-2">
-                <TabsList>
-                  <TabsTrigger 
-                    value="1Y" 
+                <div className="flex space-x-1 border rounded-md p-1">
+                  <Button 
+                    variant={projectionPeriod === "1Y" ? "default" : "ghost"} 
+                    size="sm"
                     onClick={() => setProjectionPeriod("1Y")}
-                    className={projectionPeriod === "1Y" ? "bg-primary text-white" : ""}
+                    className="text-xs font-medium"
                   >
                     1Y
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="3Y" 
+                  </Button>
+                  <Button 
+                    variant={projectionPeriod === "3Y" ? "default" : "ghost"} 
+                    size="sm"
                     onClick={() => setProjectionPeriod("3Y")}
-                    className={projectionPeriod === "3Y" ? "bg-primary text-white" : ""}
+                    className="text-xs font-medium"
                   >
                     3Y
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="5Y"
+                  </Button>
+                  <Button 
+                    variant={projectionPeriod === "5Y" ? "default" : "ghost"} 
+                    size="sm"
                     onClick={() => setProjectionPeriod("5Y")}
-                    className={projectionPeriod === "5Y" ? "bg-primary text-white" : ""}
+                    className="text-xs font-medium"
                   >
                     5Y
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="10Y"
+                  </Button>
+                  <Button 
+                    variant={projectionPeriod === "10Y" ? "default" : "ghost"} 
+                    size="sm"
                     onClick={() => setProjectionPeriod("10Y")}
-                    className={projectionPeriod === "10Y" ? "bg-primary text-white" : ""}
+                    className="text-xs font-medium"
                   >
                     10Y
-                  </TabsTrigger>
-                </TabsList>
+                  </Button>
+                </div>
               </div>
             </CardHeader>
             <CardContent>

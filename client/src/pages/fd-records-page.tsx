@@ -5,7 +5,7 @@ import SidebarNav from "@/components/layout/sidebar-nav";
 import TopNav from "@/components/layout/top-nav";
 import MobileNav from "@/components/layout/mobile-nav";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, Filter, Download } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { FixedDeposit } from "@shared/schema";
 import AddEditFDDialog from "@/components/fd-records/add-edit-fd-dialog";
@@ -112,14 +112,6 @@ export default function FDRecordsPage() {
             </div>
             
             <div className="mt-4 md:mt-0 flex space-x-2">
-              <Button variant="outline" className="flex items-center">
-                <Filter className="h-4 w-4 mr-2" />
-                Filter
-              </Button>
-              <Button variant="outline" className="flex items-center">
-                <Download className="h-4 w-4 mr-2" />
-                Export
-              </Button>
               <Button className="flex items-center" onClick={() => {
                 setEditFD(null);
                 setOpenAddDialog(true);
