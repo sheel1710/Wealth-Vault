@@ -39,28 +39,28 @@ export default function SidebarNav() {
           </Link>
           
           <Link href="/fd-records">
-            <a className={`flex items-center px-4 py-3 ${isActive('/fd-records') ? 'bg-primary bg-opacity-10 text-primary' : 'text-text-dark hover:bg-gray-100'} rounded-md font-medium transition-colors`}>
+            <a className={`flex items-center px-4 py-3 ${isActive('/fd-records') ? 'bg-primary/10 text-primary-foreground font-semibold' : 'text-text-dark hover:bg-gray-100'} rounded-md transition-colors`}>
               <Files className="h-5 w-5 mr-3" />
               FD Records
             </a>
           </Link>
           
           <Link href="/income-expense">
-            <a className={`flex items-center px-4 py-3 ${isActive('/income-expense') ? 'bg-primary bg-opacity-10 text-primary' : 'text-text-dark hover:bg-gray-100'} rounded-md font-medium transition-colors`}>
+            <a className={`flex items-center px-4 py-3 ${isActive('/income-expense') ? 'bg-primary/10 text-primary-foreground font-semibold' : 'text-text-dark hover:bg-gray-100'} rounded-md transition-colors`}>
               <BarChart2 className="h-5 w-5 mr-3" />
               Income & Expenses
             </a>
           </Link>
           
           <Link href="/projections">
-            <a className={`flex items-center px-4 py-3 ${isActive('/projections') ? 'bg-primary bg-opacity-10 text-primary' : 'text-text-dark hover:bg-gray-100'} rounded-md font-medium transition-colors`}>
+            <a className={`flex items-center px-4 py-3 ${isActive('/projections') ? 'bg-primary/10 text-primary-foreground font-semibold' : 'text-text-dark hover:bg-gray-100'} rounded-md transition-colors`}>
               <TrendingUp className="h-5 w-5 mr-3" />
               Projections
             </a>
           </Link>
           
           <Link href="/settings">
-            <a className={`flex items-center px-4 py-3 ${isActive('/settings') ? 'bg-primary bg-opacity-10 text-primary' : 'text-text-dark hover:bg-gray-100'} rounded-md font-medium transition-colors`}>
+            <a className={`flex items-center px-4 py-3 ${isActive('/settings') ? 'bg-primary/10 text-primary-foreground font-semibold' : 'text-text-dark hover:bg-gray-100'} rounded-md transition-colors`}>
               <Settings className="h-5 w-5 mr-3" />
               Settings
             </a>
