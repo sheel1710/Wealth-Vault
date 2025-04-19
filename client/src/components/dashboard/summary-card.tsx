@@ -81,7 +81,7 @@ export default function SummaryCard({
         </div>
         <div className="flex flex-col">
           <span className="text-2xl font-bold text-text-dark">{value}</span>
-          {trend && (
+          {trend && value !== "Loading..." && value !== "0" && (
             <span className={`text-sm flex items-center mt-1 ${getTrendColor()}`}>
               {getTrendIcon()}
               {trend}
