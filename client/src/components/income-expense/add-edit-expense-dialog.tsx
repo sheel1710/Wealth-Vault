@@ -244,14 +244,18 @@ export default function AddEditExpenseDialog({
                     <Input 
                       placeholder="e.g., 5000" 
                       {...field} 
+                      value={field.value || ''}
                       onChange={(e) => {
-                        // Format the number with commas
-                        const rawValue = e.target.value.replace(/,/g, '');
-                        if (!isNaN(Number(rawValue)) || rawValue === '') {
-                          const formattedValue = rawValue === '' 
-                            ? '' 
-                            : Number(rawValue).toLocaleString('en-IN');
-                          field.onChange(formattedValue);
+                        // Remove all non-numeric characters except decimals
+                        const numericValue = e.target.value.replace(/[^0-9.]/g, '');
+                        
+                        // Parse the numeric value
+                        const parsedValue = parseFloat(numericValue);
+                        
+                        if (!isNaN(parsedValue)) {
+                          field.onChange(parsedValue);
+                        } else if (numericValue === '') {
+                          field.onChange('');
                         }
                       }}
                     />
